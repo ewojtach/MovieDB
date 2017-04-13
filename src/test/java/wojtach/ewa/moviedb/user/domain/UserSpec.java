@@ -22,8 +22,6 @@ public class UserSpec {
         assertEquals(userId, facade.getUserAccountById(ewa.getName()));
     }
 
-
-
     private UserAccountDto createUserAccountDto(String name, String password) {
         return UserAccountDto.builder().name(name).password(password).build();
     }

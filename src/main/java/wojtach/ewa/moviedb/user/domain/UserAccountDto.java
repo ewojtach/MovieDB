@@ -14,5 +14,4 @@ public class UserAccountDto {
 
     @Getter private String password;
 
-
 }
