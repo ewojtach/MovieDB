@@ -17,6 +17,6 @@ class UserAccountConfiguration {
 
     @Bean (name="userAccountRepository")
     public UserAccountRepository userAccountRepository(){
-        return new UserAccountRepositoryInMemoryImpl();
+        return new InMemoryUserAccountRepositoryImpl();
     }
 }

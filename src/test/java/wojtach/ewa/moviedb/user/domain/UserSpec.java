@@ -16,10 +16,10 @@ public class UserSpec {
     @Test
     public void shouldAddUser() {
         // when: user creates account
-        String userId = facade.createUserAccount(ewa);
+        UserAccountDto user = facade.createUserAccount(ewa);
 
         //then: system has this user
-        assertEquals(userId, facade.getUserAccountById(ewa.getName()));
+        assertNotNull(facade.getUserAccountByName(ewa.getName()));
     }
 
     private UserAccountDto createUserAccountDto(String name, String password) {

@@ -1,19 +1,36 @@
 package wojtach.ewa.moviedb.user.domain;
 
-import java.util.ArrayList;
+import org.springframework.stereotype.Repository;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by ewa on 12.04.2017.
  */
-public class InMemoryUserAccountRepositoryImpl implements UserAccountRepository{
+// @Repository("userAccountRepository")
+public class InMemoryUserAccountRepositoryImpl implements UserAccountRepository {
 
+    private Map<String, UserAccount> userMap = new HashMap<>();
+
+    @Override
     public List<UserAccount> findAll() {
-        List<UserAccount> userList = new ArrayList<>();
+        return null;
+    }
 
-        UserAccount account = new UserAccount();
-        userList.add(account);
+    @Override
+    public UserAccount findByName(String name) {
+        return userMap.get(name);
+    }
 
-        return userList;
+    @Override
+    public UserAccount create(UserAccount userAccount) {
+        userMap.put(userAccount.getName(), userAccount);
+        return userAccount;
+    }
+
+    @Override
+    public void delete(long userId) {
     }
 }

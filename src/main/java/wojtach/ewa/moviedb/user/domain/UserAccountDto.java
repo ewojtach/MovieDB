@@ -10,6 +10,8 @@ import lombok.Getter;
 @Builder
 public class UserAccountDto {
 
+    @Getter private long id;
+
     @Getter private String name;
 
     @Getter private String password;

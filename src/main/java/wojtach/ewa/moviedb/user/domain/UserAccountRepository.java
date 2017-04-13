@@ -10,4 +10,11 @@ import java.util.List;
 public interface UserAccountRepository {
 
     List<UserAccount> findAll();
+
+    UserAccount findByName(String name);
+
+    UserAccount create(UserAccount userAccount);
+
+    void delete(long userId);
+
 }
