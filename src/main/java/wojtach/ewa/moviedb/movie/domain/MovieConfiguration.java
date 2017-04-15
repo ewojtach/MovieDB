@@ -1,12 +1,19 @@
 package wojtach.ewa.moviedb.movie.domain;
 
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+
 /**
  * Created by ewa on 15.04.2017.
  */
-public class MovieConfiguration {
 
+@Configuration
+@ComponentScan({"wojtach.ewa.moviedb.movie.domain"})
+class MovieConfiguration {
 
+    @Bean(name="movieFacade")
     public MovieFacade movieFacade() {
-        return null;
+        return new MovieFacade();
     }
 }

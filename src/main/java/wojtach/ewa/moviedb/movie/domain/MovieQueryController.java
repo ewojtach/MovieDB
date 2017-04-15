@@ -1,9 +1,11 @@
-package wojtach.ewa.moviedb.user.domain;
+package wojtach.ewa.moviedb.movie.domain;
 
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
+import wojtach.ewa.moviedb.user.domain.UserAccountDto;
+import wojtach.ewa.moviedb.user.domain.UserAccountFacade;
 
 import java.util.List;
 
@@ -13,16 +15,17 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-class UserQueryController {
-    private UserAccountFacade userAccountFacade;
+class MovieQueryController {
 
-    @GetMapping("users")
-    List<UserAccountDto> getUserAccounts(){
-        return userAccountFacade.getAllUserAccounts();
+    private MovieFacade movieFacade;
+
+    @GetMapping("movies")
+    List<MovieDto> getAllMovies(){
+        return movieFacade.getAllMovies();
     }
 
-    @GetMapping("user/{name}")
-    UserAccountDto getUserAccount(@PathVariable String name){
-        return userAccountFacade.getUserAccountByName(name);
+    @GetMapping("movie/{title}")
+    MovieDto getMovieByTitle(@PathVariable String title){
+        return movieFacade.getMovieByTitle(title);
     }
 }

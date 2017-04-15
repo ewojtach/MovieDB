@@ -51,13 +51,11 @@ public class UserAccountFacade {
         UserAccount user = userAccountRepository.findByName(userName);
         if (user == null) throw new UserNotFoundException();
 
-        System.out.println("delete user with id: "+user.getId());
         userAccountRepository.delete(user.getId());
     }
 
 
     private UserAccountDto convertToDto(UserAccount userAccount){
-        System.out.println("user account: "+userAccount);
         return UserAccountDto.builder().name(userAccount.getName()).password(null).id(userAccount.getId()).build();
     }
 

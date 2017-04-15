@@ -1,10 +1,10 @@
-package wojtach.ewa.moviedb.user.domain;
+package wojtach.ewa.moviedb.movie.domain;
 
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import wojtach.ewa.moviedb.user.domain.UserAccountDto;
+import wojtach.ewa.moviedb.user.domain.UserAccountFacade;
 
 /**
  * Created by ewa on 15.04.2017.
@@ -12,19 +12,13 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-class UserCommandController {
-    private UserAccountFacade userAccountFacade;
+class MovieCommandController {
+    private MovieFacade movieFacade;
 
-    @PutMapping("user")
+    @PutMapping("movie")
     @ResponseStatus(code = HttpStatus.CREATED)
-    UserAccountDto registerUser(@RequestBody UserAccountDto user){
-        return userAccountFacade.createUserAccount(user);
-    }
-
-    @DeleteMapping("user/{userName}")
-    @ResponseStatus(code = HttpStatus.OK)
-    void deleteUser(@PathVariable("userName") String userName){
-        userAccountFacade.removeUserAccount(userName);
+    MovieDto addMovie(@RequestBody MovieDto movie){
+        return movieFacade.addMovie(movie);
     }
 
 }
