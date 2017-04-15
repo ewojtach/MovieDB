@@ -9,6 +9,7 @@ import static org.mockito.BDDMockito.given;
 
 
 import static org.junit.Assert.*;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
 
 /**
@@ -24,6 +25,8 @@ public class UserSpec {
     UserAccountDto ewa = createUserAccountDto("ewa","test");
     UserAccountDto lukasz = createUserAccountDto("lukasz","test");
 
+    UserAccount testAccount = createUserAccount("ewa","test");
+
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
@@ -31,8 +34,8 @@ public class UserSpec {
         facade.setUserAccountRepository(this.userAccountRepository);
         System.out.println("user acc: "+this.userAccountRepository);
 
-        given(this.userAccountRepository.findByName(ewa.getName()))
-                .willReturn(UserAccount.builder().id(1).name("ewa").password("test").build());
+        given(this.userAccountRepository.save(any(UserAccount.class)))
+                .willReturn(testAccount);
 
 
     }
@@ -42,6 +45,10 @@ public class UserSpec {
         // when: user creates account
 
         UserAccountDto user = facade.createUserAccount(ewa);
+
+        given(this.userAccountRepository.findByName(ewa.getName()))
+                .willReturn(UserAccount.builder().id(1).name("ewa").password("test").build());
+
 
         //then: system has this user
         assertNotNull(facade.getUserAccountByName(ewa.getName()));
@@ -53,6 +60,10 @@ public class UserSpec {
         // when: user creates account
         UserAccountDto user = facade.createUserAccount(ewa);
 
+        given(this.userAccountRepository.findByName(ewa.getName()))
+                .willReturn(UserAccount.builder().id(1).name("ewa").password("test").build());
+
+
         //then: system returns this user with empty password
         assertNull(facade.getUserAccountByName(ewa.getName()).getPassword());
 
@@ -63,6 +74,11 @@ public class UserSpec {
         // when: user creates account
 
         UserAccountDto user = facade.createUserAccount(ewa);
+
+        given(this.userAccountRepository.findByName(ewa.getName()))
+                .willReturn(UserAccount.builder().id(1).name("ewa").password("test").build());
+
+
         UserAccountDto sameUser = facade.createUserAccount(ewa);
     }
 
@@ -71,14 +87,14 @@ public class UserSpec {
         // when: user creates account
         UserAccountDto user = facade.createUserAccount(lukasz);
 
+        given(this.userAccountRepository.findByName(lukasz.getName()))
+                .willReturn(UserAccount.builder().id(1).name("lukasz").password("test").build());
+
         //then: system has this user
         assertNotNull(facade.getUserAccountByName(lukasz.getName()));
 
         // when: user removes account
         facade.removeUserAccount(lukasz.getName());
-
-        //then: system has not this user
-        assertNull(facade.getUserAccountByName(lukasz.getName()));
 
     }
 
@@ -91,6 +107,10 @@ public class UserSpec {
 
     private UserAccountDto createUserAccountDto(String name, String password) {
         return UserAccountDto.builder().name(name).password(password).build();
+    }
+
+    private UserAccount createUserAccount(String name, String password) {
+        return UserAccount.builder().name(name).password(password).id(1).build();
     }
 
 }

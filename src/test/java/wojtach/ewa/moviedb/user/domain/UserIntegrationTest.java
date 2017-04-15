@@ -18,8 +18,6 @@ import static org.hamcrest.Matchers.*;
  * Created by ewa on 15.04.2017.
  */
 
-
-
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 public class UserIntegrationTest {
