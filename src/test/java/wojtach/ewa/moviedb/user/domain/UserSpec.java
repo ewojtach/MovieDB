@@ -22,6 +22,7 @@ public class UserSpec {
     UserAccountFacade facade = new UserAccountConfiguration().userAccountFacade();
 
     UserAccountDto ewa = createUserAccountDto("ewa","test");
+    UserAccountDto lukasz = createUserAccountDto("lukasz","test");
 
     @Before
     public void setUp() {
@@ -55,6 +56,37 @@ public class UserSpec {
         //then: system returns this user with empty password
         assertNull(facade.getUserAccountByName(ewa.getName()).getPassword());
 
+    }
+
+    @Test (expected=UserAlreadyRegisteredException.class)
+    public void shouldNotAllowToAddTwoUsersWithSameLogin() {
+        // when: user creates account
+
+        UserAccountDto user = facade.createUserAccount(ewa);
+        UserAccountDto sameUser = facade.createUserAccount(ewa);
+    }
+
+    @Test
+    public void shouldRemoveUser() {
+        // when: user creates account
+        UserAccountDto user = facade.createUserAccount(lukasz);
+
+        //then: system has this user
+        assertNotNull(facade.getUserAccountByName(lukasz.getName()));
+
+        // when: user removes account
+        facade.removeUserAccount(lukasz.getName());
+
+        //then: system has not this user
+        assertNull(facade.getUserAccountByName(lukasz.getName()));
+
+    }
+
+    @Test (expected=UserNotFoundException.class)
+    public void shouldNotAllowToRemoveUnregisteredUser() {
+        // when: user creates account
+
+        facade.removeUserAccount("xxx");
     }
 
     private UserAccountDto createUserAccountDto(String name, String password) {

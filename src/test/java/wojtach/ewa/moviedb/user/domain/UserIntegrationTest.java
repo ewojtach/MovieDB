@@ -52,6 +52,28 @@ public class UserIntegrationTest {
                     body("list.size()", greaterThan(0));
         }
 
+        @Test
+        public void canRemoveUserAccount() {
+            String userName = "lukasz";
+            String msg = prepareUserDto(userName,  "test");
+            given()
+                    .contentType("application/json")
+                    .body(msg)
+                    .when()
+                    .put("/user")
+                    .then()
+                    .statusCode(HttpStatus.SC_CREATED);
+            when().
+                    get("/users").
+                    then().body(containsString(userName));
+            when().
+                    delete("/user/"+userName)
+                    .then().statusCode(HttpStatus.SC_OK);
+            when()
+                    .get("users")
+                    .then().body(not(containsString(userName)));
+        }
+
 
         private String prepareUserDto(String userName, String userPassword){
             UserAccountDto user = UserAccountDto.builder().name(userName).password(userPassword).build();

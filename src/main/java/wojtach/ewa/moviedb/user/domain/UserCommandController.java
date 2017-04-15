@@ -23,8 +23,8 @@ class UserCommandController {
 
     @DeleteMapping("user/{userName}")
     @ResponseStatus(code = HttpStatus.OK)
-    UserAccountDto deleteUser(@PathVariable("userName") String userName){
-        return null; //userAccountFacade.removeUserAccount(user);
+    void deleteUser(@PathVariable("userName") String userName){
+        userAccountFacade.removeUserAccount(userName);
     }
 
 }

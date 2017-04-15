@@ -29,6 +29,10 @@ public class UserAccountFacade {
     }
 
     public UserAccountDto createUserAccount(UserAccountDto user) {
+
+        //check if user with same login does not exist!
+        if (userExists(user)) throw new UserAlreadyRegisteredException();
+
         return convertToDto(userAccountRepository.save(convertToEntity(user)));
     }
 
@@ -42,7 +46,12 @@ public class UserAccountFacade {
                 .map(entity -> convertToDto(entity)).collect(Collectors.toList());
     }
 
-    public void removeUserAccount(UserAccountDto user) {
+    public void removeUserAccount(String userName) {
+
+        UserAccount user = userAccountRepository.findByName(userName);
+        if (user == null) throw new UserNotFoundException();
+
+        System.out.println("delete user with id: "+user.getId());
         userAccountRepository.delete(user.getId());
     }
 
@@ -57,5 +66,9 @@ public class UserAccountFacade {
                 .name(userAccountDto.getName())
                 .password(userAccountDto.getPassword())
                 .id(userAccountDto.getId()).build();
+    }
+
+    private boolean userExists(UserAccountDto user) {
+        return userAccountRepository.findByName(user.getName()) != null;
     }
 }
