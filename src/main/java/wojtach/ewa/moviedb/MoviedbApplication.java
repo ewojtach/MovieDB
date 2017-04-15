@@ -8,8 +8,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class MoviedbApplication {
 
 	public static void main(String[] args) {
-
-//		ApplicationContext appContext = new AnnotationConfigApplictionContext(UserAccountConfig.class);
 		SpringApplication.run(MoviedbApplication.class, args);
 	}
 }

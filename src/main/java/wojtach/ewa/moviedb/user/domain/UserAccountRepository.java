@@ -1,5 +1,6 @@
 package wojtach.ewa.moviedb.user.domain;
 
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.Repository;
 
 import java.util.List;
@@ -7,14 +8,9 @@ import java.util.List;
 /**
  * Created by ewa on 11.04.2017.
  */
-public interface UserAccountRepository {
-
-    List<UserAccount> findAll();
+@org.springframework.stereotype.Repository ("userAccountRepository")
+interface UserAccountRepository extends CrudRepository<UserAccount, Long>{
 
     UserAccount findByName(String name);
-
-    UserAccount create(UserAccount userAccount);
-
-    void delete(long userId);
 
 }

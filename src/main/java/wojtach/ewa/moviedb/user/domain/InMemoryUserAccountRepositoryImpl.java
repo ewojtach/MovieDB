@@ -9,28 +9,26 @@ import java.util.Map;
 /**
  * Created by ewa on 12.04.2017.
  */
+
 // @Repository("userAccountRepository")
-public class InMemoryUserAccountRepositoryImpl implements UserAccountRepository {
+class InMemoryUserAccountRepositoryImpl {
 
     private Map<String, UserAccount> userMap = new HashMap<>();
 
-    @Override
     public List<UserAccount> findAll() {
         return null;
     }
 
-    @Override
     public UserAccount findByName(String name) {
         return userMap.get(name);
     }
 
-    @Override
-    public UserAccount create(UserAccount userAccount) {
+    public UserAccount save(UserAccount userAccount) {
+        System.out.println("in memory save");
         userMap.put(userAccount.getName(), userAccount);
         return userAccount;
     }
 
-    @Override
     public void delete(long userId) {
     }
 }

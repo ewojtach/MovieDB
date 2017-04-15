@@ -1,10 +1,12 @@
 package wojtach.ewa.moviedb.user.domain;
 
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 /**
  * Created by ewojtach on 07/04/2017.
@@ -12,15 +14,22 @@ import java.util.stream.Collectors;
 // @Service("userAccountFacade")
 public class UserAccountFacade {
 
-    private final UserAccountRepository userAccountRepository;
-
     @Autowired
+    public void setUserAccountRepository(UserAccountRepository userAccountRepository) {
+        this.userAccountRepository = userAccountRepository;
+    }
+
+    private UserAccountRepository userAccountRepository;
+
+    public UserAccountFacade(){
+    }
+
     public UserAccountFacade(UserAccountRepository userAccountRepository){
         this.userAccountRepository = userAccountRepository;
     }
 
     public UserAccountDto createUserAccount(UserAccountDto user) {
-        return convertToDto(userAccountRepository.create(convertToEntity(user)));
+        return convertToDto(userAccountRepository.save(convertToEntity(user)));
     }
 
     public UserAccountDto getUserAccountByName(String name) {
@@ -28,7 +37,9 @@ public class UserAccountFacade {
     }
 
     public List<UserAccountDto> getAllUserAccounts() {
-        return userAccountRepository.findAll().stream().map(entity -> convertToDto(entity)).collect(Collectors.toList());
+
+        return StreamSupport.stream(userAccountRepository.findAll().spliterator(), false)
+                .map(entity -> convertToDto(entity)).collect(Collectors.toList());
     }
 
     public void removeUserAccount(UserAccountDto user) {
@@ -37,6 +48,7 @@ public class UserAccountFacade {
 
 
     private UserAccountDto convertToDto(UserAccount userAccount){
+        System.out.println("user account: "+userAccount);
         return UserAccountDto.builder().name(userAccount.getName()).password(null).id(userAccount.getId()).build();
     }
 
