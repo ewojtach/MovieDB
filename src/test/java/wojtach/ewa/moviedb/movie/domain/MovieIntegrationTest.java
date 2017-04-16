@@ -11,7 +11,6 @@ import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import static io.restassured.RestAssured.get;
 import static io.restassured.RestAssured.given;
 import static io.restassured.RestAssured.when;
 import static org.hamcrest.Matchers.*;
@@ -60,7 +59,7 @@ public class MovieIntegrationTest {
                 .body(msg)
                 .put("/movie");
 
-        Long id = response.body().jsonPath().getLong("id");
+        String id = response.body().jsonPath().getString("id");
 
         when().
                 get("/movies").

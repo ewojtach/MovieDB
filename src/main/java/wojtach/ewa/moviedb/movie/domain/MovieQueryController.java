@@ -26,13 +26,13 @@ class MovieQueryController {
 
     @GetMapping("movies/watched")
     List<MovieDto> getWatchedMovies(){
-        return movieFacade.getAllMovies();
+        return movieFacade.getWatchedMovies();
     }
 
 
     @GetMapping("movies/unwatched")
     List<MovieDto> getUnwatchedMovies(){
-        return movieFacade.getAllMovies();
+        return movieFacade.getUnwatchedMovies();
     }
 
 

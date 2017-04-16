@@ -3,6 +3,7 @@ package wojtach.ewa.moviedb.movie.domain;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -33,7 +34,7 @@ public class MovieFacade {
 
     public void deleteMovie(String movieId){
 
-        Movie movie = movieRepository.findById(Long.parseLong(movieId));
+        Movie movie = movieRepository.findById(UUID.fromString(movieId));
 
         if (movie == null) throw new MovieNotFoundException();
 
@@ -62,14 +63,25 @@ public class MovieFacade {
 
 
     private MovieDto convertToDto(Movie movie){
+
+        String id = null;
+        if (movie.getId() != null ){
+            id = movie.getId().toString();
+        }
+
         return MovieDto.builder().title(movie.getTitle()).description(movie.getDescription())
-                .id(movie.getId()).watched(movie.isWatched()).build();
+                .id(id).watched(movie.isWatched()).build();
     }
 
     private Movie convertToEntity(MovieDto movieDto){
+        UUID id = null;
+        if (movieDto.getId() != null){
+            id = UUID.fromString(movieDto.getId());
+        }
+
         return Movie.builder()
                 .title(movieDto.getTitle())
                 .description(movieDto.getDescription())
-                .id(movieDto.getId()).watched(movieDto.isWatched()).build();
+                .id(id).watched(movieDto.isWatched()).build();
     }
 }

@@ -9,7 +9,7 @@ import lombok.Getter;
 @Builder
 public class MovieDto {
 
-    @Getter private long id;
+    @Getter private String id;
     @Getter private String title;
     @Getter private String description;
     @Getter private boolean watched;

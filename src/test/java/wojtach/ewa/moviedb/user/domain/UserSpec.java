@@ -32,7 +32,6 @@ public class UserSpec {
         MockitoAnnotations.initMocks(this);
 
         facade.setUserAccountRepository(this.userAccountRepository);
-        System.out.println("user acc: "+this.userAccountRepository);
 
         given(this.userAccountRepository.save(any(UserAccount.class)))
                 .willReturn(testAccount);

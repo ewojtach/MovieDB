@@ -5,6 +5,8 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.util.UUID;
+
 import static org.junit.Assert.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Matchers.any;
@@ -39,7 +41,8 @@ public class MovieSpec {
         MovieDto movie = facade.addMovie(testMovie);
 
         given(this.movieRepository.findByTitle(testMovie.getTitle()))
-                .willReturn(Movie.builder().id(1).title(testMovie.getTitle()).description("opis").build());
+                .willReturn(Movie.builder().id(UUID.randomUUID())
+                        .title(testMovie.getTitle()).description("opis").build());
 
 
         //then: system has this user
@@ -54,7 +57,7 @@ public class MovieSpec {
         MovieDto movie = facade.addMovie(testMovie);
 
         given(this.movieRepository.findByTitle(testMovie.getTitle()))
-                .willReturn(Movie.builder().id(1).title(testMovie.getTitle()).description("opis").build());
+                .willReturn(Movie.builder().id(UUID.randomUUID()).title(testMovie.getTitle()).description("opis").build());
 
 
         MovieDto sameMovie = facade.addMovie(testMovie);
@@ -64,13 +67,13 @@ public class MovieSpec {
     public void shouldRemoveMovie() {
         // when: user adds movie
         MovieDto movie = facade.addMovie(testMovie);
-        long movieId = 1l;
+        UUID movieId = UUID.randomUUID();
 
         given(this.movieRepository.findById(movieId))
                 .willReturn(Movie.builder().id(movieId).title(testMovie.getTitle()).description("opis").build());
 
         // when: user removes account
-        facade.deleteMovie(Long.toString(movieId));
+        facade.deleteMovie(movieId.toString());
 
     }
 
@@ -78,7 +81,7 @@ public class MovieSpec {
     public void shouldNotAllowToRemoveUnexistingMovie() {
         // when: user removes not existing movie
 
-        facade.deleteMovie("13");
+        facade.deleteMovie(UUID.randomUUID().toString());
     }
 
     private MovieDto createMovieDto(String title, String description, boolean watched) {

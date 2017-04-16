@@ -4,11 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+
+import java.util.UUID;
 
 /**
  * Created by ewa on 15.04.2017.
@@ -20,9 +20,12 @@ import javax.persistence.Id;
 @Entity
 class Movie {
 
+
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
-    @Getter private long id;
+    @GeneratedValue(generator = "uuid")
+    @GenericGenerator(name = "uuid", strategy = "uuid2")
+    @Column(name = "uuid", unique = true)
+    @Getter private UUID id;
 
     @Getter private String title;
 
