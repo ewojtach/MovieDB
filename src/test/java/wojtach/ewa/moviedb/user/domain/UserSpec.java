@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import static org.mockito.BDDMockito.given;
 
@@ -20,6 +21,10 @@ public class UserSpec {
     @Mock
     private UserAccountRepository userAccountRepository;
 
+    @Mock
+    private PasswordEncoder passwordEncoder;
+
+
     UserAccountFacade facade = new UserAccountConfiguration().userAccountFacade();
 
     UserAccountDto ewa = createUserAccountDto("ewa","test");
@@ -32,10 +37,13 @@ public class UserSpec {
         MockitoAnnotations.initMocks(this);
 
         facade.setUserAccountRepository(this.userAccountRepository);
+        facade.setPasswordEncoder(this.passwordEncoder);
 
         given(this.userAccountRepository.save(any(UserAccount.class)))
                 .willReturn(testAccount);
 
+        given(this.passwordEncoder.encode(any(CharSequence.class)))
+                .willReturn("hashedval");
 
     }
 

@@ -15,15 +15,20 @@ import java.util.stream.StreamSupport;
 // @Service("userAccountFacade")
 public class UserAccountFacade {
 
-    @Autowired
+    private UserAccountRepository userAccountRepository;
+
     private PasswordEncoder passwordEncoder;
+
+
+    @Autowired
+    public void setPasswordEncoder (PasswordEncoder passwordEncoder) {
+        this.passwordEncoder = passwordEncoder;
+    }
 
     @Autowired
     public void setUserAccountRepository(UserAccountRepository userAccountRepository) {
         this.userAccountRepository = userAccountRepository;
     }
-
-    private UserAccountRepository userAccountRepository;
 
     public UserAccountFacade(){
     }
