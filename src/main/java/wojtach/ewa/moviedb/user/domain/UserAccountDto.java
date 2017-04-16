@@ -2,6 +2,7 @@ package wojtach.ewa.moviedb.user.domain;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Created by ewojtach on 07/04/2017.
@@ -14,6 +15,6 @@ public class UserAccountDto {
 
     @Getter private String name;
 
-    @Getter private String password;
+    @Getter @Setter private String password;
 
 }

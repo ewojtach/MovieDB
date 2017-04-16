@@ -2,6 +2,7 @@ package wojtach.ewa.moviedb.user.domain;
 
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,6 +14,9 @@ import java.util.stream.StreamSupport;
  */
 // @Service("userAccountFacade")
 public class UserAccountFacade {
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     public void setUserAccountRepository(UserAccountRepository userAccountRepository) {
@@ -31,6 +35,7 @@ public class UserAccountFacade {
     public UserAccountDto createUserAccount(UserAccountDto user) {
 
         //check if user with same login does not exist!
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         if (userExists(user)) throw new UserAlreadyRegisteredException();
 
         return convertToDto(userAccountRepository.save(convertToEntity(user)));
