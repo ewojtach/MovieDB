@@ -21,4 +21,16 @@ class MovieCommandController {
         return movieFacade.addMovie(movie);
     }
 
+    @PostMapping("movie")
+    @ResponseStatus(code = HttpStatus.OK)
+    MovieDto updateMovie(@RequestBody MovieDto movie){
+        return movieFacade.updateMovie(movie);
+    }
+
+    @DeleteMapping("movie/{id}")
+    @ResponseStatus(code = HttpStatus.OK)
+    void deleteMovie(@PathVariable("id") String id){
+        movieFacade.deleteMovie(id);
+    }
+
 }

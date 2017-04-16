@@ -100,7 +100,7 @@ public class UserSpec {
 
     @Test (expected=UserNotFoundException.class)
     public void shouldNotAllowToRemoveUnregisteredUser() {
-        // when: user creates account
+        // when: user removes account
 
         facade.removeUserAccount("xxx");
     }

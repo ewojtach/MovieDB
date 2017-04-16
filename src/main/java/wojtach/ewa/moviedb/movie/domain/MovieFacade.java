@@ -21,11 +21,38 @@ public class MovieFacade {
 
 
     public MovieDto addMovie(MovieDto movie){
+
+        if (movieRepository.findByTitle(movie.getTitle() )!= null) throw new MovieAlreadyExistsException();
+
         return convertToDto(movieRepository.save(convertToEntity(movie)));
     }
 
+    public MovieDto updateMovie(MovieDto movie){
+        return convertToDto(movieRepository.save(convertToEntity(movie)));
+    }
+
+    public void deleteMovie(String movieId){
+
+        Movie movie = movieRepository.findById(Long.parseLong(movieId));
+
+        if (movie == null) throw new MovieNotFoundException();
+
+        movieRepository.delete(movie.getId());
+    }
+
+
     public List<MovieDto> getAllMovies(){
         return StreamSupport.stream(movieRepository.findAll().spliterator(), false)
+                .map(entity -> convertToDto(entity)).collect(Collectors.toList());
+    }
+
+    public List<MovieDto> getWatchedMovies(){
+        return StreamSupport.stream(movieRepository.findByWatched(true).spliterator(), false)
+                .map(entity -> convertToDto(entity)).collect(Collectors.toList());
+    }
+
+    public List<MovieDto> getUnwatchedMovies(){
+        return StreamSupport.stream(movieRepository.findByWatched(false).spliterator(), false)
                 .map(entity -> convertToDto(entity)).collect(Collectors.toList());
     }
 

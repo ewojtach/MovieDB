@@ -28,9 +28,6 @@ public class MovieSpec {
 
         facade.setMovieRepository(this.movieRepository);
 
-        given(this.movieRepository.findByTitle(testMovie.getTitle()))
-                .willReturn(Movie.builder().id(1).title("film").description("opis").watched(false).build());
-
         given(this.movieRepository.save(any(Movie.class)))
                 .willReturn(testMovieValue);
 
@@ -41,11 +38,48 @@ public class MovieSpec {
     public void shouldAddMovie() {
         MovieDto movie = facade.addMovie(testMovie);
 
+        given(this.movieRepository.findByTitle(testMovie.getTitle()))
+                .willReturn(Movie.builder().id(1).title(testMovie.getTitle()).description("opis").build());
+
+
         //then: system has this user
         assertNotNull(facade.getMovieByTitle(testMovie.getTitle()));
 
     }
 
+    @Test (expected=MovieAlreadyExistsException.class)
+    public void shouldNotAllowToAddTwoMoviesWithSameTitle() {
+        // when: user adds movie
+
+        MovieDto movie = facade.addMovie(testMovie);
+
+        given(this.movieRepository.findByTitle(testMovie.getTitle()))
+                .willReturn(Movie.builder().id(1).title(testMovie.getTitle()).description("opis").build());
+
+
+        MovieDto sameMovie = facade.addMovie(testMovie);
+    }
+
+    @Test
+    public void shouldRemoveMovie() {
+        // when: user adds movie
+        MovieDto movie = facade.addMovie(testMovie);
+        long movieId = 1l;
+
+        given(this.movieRepository.findById(movieId))
+                .willReturn(Movie.builder().id(movieId).title(testMovie.getTitle()).description("opis").build());
+
+        // when: user removes account
+        facade.deleteMovie(Long.toString(movieId));
+
+    }
+
+    @Test (expected=MovieNotFoundException.class)
+    public void shouldNotAllowToRemoveUnexistingMovie() {
+        // when: user removes not existing movie
+
+        facade.deleteMovie("13");
+    }
 
     private MovieDto createMovieDto(String title, String description, boolean watched) {
         return MovieDto.builder().title(title).description(description).watched(watched).build();
