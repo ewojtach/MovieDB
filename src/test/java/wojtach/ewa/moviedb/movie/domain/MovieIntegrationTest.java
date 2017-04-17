@@ -8,6 +8,7 @@ import org.apache.http.HttpStatus;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -19,12 +20,14 @@ import static org.hamcrest.Matchers.*;
  * Created by ewa on 16.04.2017.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class MovieIntegrationTest {
+
+    @Value("${local.server.port}")   private int port;
 
     @Before
     public void setUp() {
-        RestAssured.port = 8080;
+        RestAssured.port = port;
     }
 
     @Test

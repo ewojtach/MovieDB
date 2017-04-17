@@ -7,6 +7,7 @@ import org.apache.http.HttpStatus;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -20,16 +21,18 @@ import static org.hamcrest.Matchers.*;
  */
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
 public class UserIntegrationTest {
 
-        @Before
-        public void setUp() {
-            RestAssured.port = 8080;
-        }
+    @Value("${local.server.port}")   private int port;
 
-        @Test
+    @Before
+    public void setUp() {
+        RestAssured.port = port;
+    }
+
+    @Test
         public void canAddUserAccountAndFetchIt() {
             //  given().
             String userName = "ewa";
