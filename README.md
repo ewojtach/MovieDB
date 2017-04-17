@@ -14,10 +14,10 @@
 
 ### Automatic tests
 Each domain contains:
-- set of unit tests (described in *Spec file)
+- unit tests (described in *SpecTest file)
 - integration tests (described in *IntegrationTest file).
 
-To run integration tests:
+To run tests:
   `mvn clean && mvn test`
 
 

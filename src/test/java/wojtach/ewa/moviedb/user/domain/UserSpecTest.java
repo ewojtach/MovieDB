@@ -16,7 +16,7 @@ import static org.mockito.Mockito.when;
 /**
  * Created by ewojtach on 11/04/2017.
  */
-public class UserSpec {
+public class UserSpecTest {
 
     @Mock
     private UserAccountRepository userAccountRepository;

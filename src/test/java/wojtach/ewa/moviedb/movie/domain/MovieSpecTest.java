@@ -14,7 +14,7 @@ import static org.mockito.Matchers.any;
 /**
  * Created by ewa on 15.04.2017.
  */
-public class MovieSpec {
+public class MovieSpecTest {
 
     @Mock
     MovieRepository movieRepository;
