@@ -16,12 +16,12 @@ import java.util.List;
 class UserQueryController {
     private UserAccountFacade userAccountFacade;
 
-    @GetMapping("users")
+    @GetMapping("api/users")
     List<UserAccountDto> getUserAccounts(){
         return userAccountFacade.getAllUserAccounts();
     }
 
-    @GetMapping("user/{name}")
+    @GetMapping("api/user/{name}")
     UserAccountDto getUserAccount(@PathVariable String name){
         return userAccountFacade.getUserAccountByName(name);
     }

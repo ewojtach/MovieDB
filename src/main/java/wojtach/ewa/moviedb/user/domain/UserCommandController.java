@@ -15,13 +15,13 @@ import java.util.List;
 class UserCommandController {
     private UserAccountFacade userAccountFacade;
 
-    @PutMapping("user")
+    @PutMapping("api/user")
     @ResponseStatus(code = HttpStatus.CREATED)
     UserAccountDto registerUser(@RequestBody UserAccountDto user){
         return userAccountFacade.createUserAccount(user);
     }
 
-    @DeleteMapping("user/{userName}")
+    @DeleteMapping("api/user/{userName}")
     @ResponseStatus(code = HttpStatus.OK)
     void deleteUser(@PathVariable("userName") String userName){
         userAccountFacade.removeUserAccount(userName);

@@ -23,6 +23,13 @@ import static org.hamcrest.Matchers.*;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class MovieIntegrationTest {
 
+    public static final String API_MOVIE = "/api/movie";
+    public static final String API_MOVIES = "/api/movies";
+    public static final String API_MOVIES_UNWATCHED = "/api/movies/unwatched";
+    public static final String API_MOVIES_WATCHED = "/api/movies/watched";
+
+    public static final String SAMPLE_AUTH = "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTQ5MzI5NDg0OH0.JRwfFvqiiYEvbxrtUwoPmqOKY963HL-sDWrowStOBqgC9DQJN1F1eTj-Lk9rlUANQIQNUCx5OMnQjMpxoXyhfQ";
+
     @Value("${local.server.port}")   private int port;
 
     @Before
@@ -36,21 +43,21 @@ public class MovieIntegrationTest {
         String title = "movie123";
         String msg = prepareMovieDto(title, "desc", true);
 
-        given().header("Authorization", "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTQ5MzI5NDg0OH0.JRwfFvqiiYEvbxrtUwoPmqOKY963HL-sDWrowStOBqgC9DQJN1F1eTj-Lk9rlUANQIQNUCx5OMnQjMpxoXyhfQ")
+        given().header("Authorization", SAMPLE_AUTH)
                 .when()
                 .contentType("application/json")
                 .body(msg)
                 .when()
-                .put("/movie")
+                .put(API_MOVIE)
                 .then()
                 .statusCode(HttpStatus.SC_CREATED);
-        given().header("Authorization", "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTQ5MzI5NDg0OH0.JRwfFvqiiYEvbxrtUwoPmqOKY963HL-sDWrowStOBqgC9DQJN1F1eTj-Lk9rlUANQIQNUCx5OMnQjMpxoXyhfQ")
+        given().header("Authorization", SAMPLE_AUTH)
                 .when()
-                .get("/movies").
+                .get(API_MOVIES).
                 then().body(containsString(title));
-        given().header("Authorization", "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTQ5MzI5NDg0OH0.JRwfFvqiiYEvbxrtUwoPmqOKY963HL-sDWrowStOBqgC9DQJN1F1eTj-Lk9rlUANQIQNUCx5OMnQjMpxoXyhfQ")
+        given().header("Authorization", SAMPLE_AUTH)
                 .when()
-                .get("/movies").
+                .get(API_MOVIES).
                 then().
                 statusCode(HttpStatus.SC_OK).
                 contentType(ContentType.JSON).
@@ -62,28 +69,28 @@ public class MovieIntegrationTest {
         String movieTitle = "12 gniewnych ludzi";
         String msg = prepareMovieDto(movieTitle,  "test", false);
         Response response =
-                given().header("Authorization", "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTQ5MzI5NDg0OH0.JRwfFvqiiYEvbxrtUwoPmqOKY963HL-sDWrowStOBqgC9DQJN1F1eTj-Lk9rlUANQIQNUCx5OMnQjMpxoXyhfQ")
+                given().header("Authorization", SAMPLE_AUTH)
                 .when()
                 .contentType("application/json")
                 .body(msg)
-                .put("/movie");
+                .put(API_MOVIE);
 
         String id = response.body().jsonPath().getString("id");
 
-        given().header("Authorization", "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTQ5MzI5NDg0OH0.JRwfFvqiiYEvbxrtUwoPmqOKY963HL-sDWrowStOBqgC9DQJN1F1eTj-Lk9rlUANQIQNUCx5OMnQjMpxoXyhfQ")
+        given().header("Authorization", SAMPLE_AUTH)
                 .when()
-                .get("/movies").
+                .get(API_MOVIES).
                 then().body(containsString(movieTitle));
 
 
 
-        given().header("Authorization", "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTQ5MzI5NDg0OH0.JRwfFvqiiYEvbxrtUwoPmqOKY963HL-sDWrowStOBqgC9DQJN1F1eTj-Lk9rlUANQIQNUCx5OMnQjMpxoXyhfQ")
+        given().header("Authorization", SAMPLE_AUTH)
                 .when()
-                .delete("/movie/"+id)
+                .delete(API_MOVIE+"/"+id)
                 .then().statusCode(HttpStatus.SC_OK);
-        given().header("Authorization", "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTQ5MzI5NDg0OH0.JRwfFvqiiYEvbxrtUwoPmqOKY963HL-sDWrowStOBqgC9DQJN1F1eTj-Lk9rlUANQIQNUCx5OMnQjMpxoXyhfQ")
+        given().header("Authorization", SAMPLE_AUTH)
                 .when()
-                .get("movies")
+                .get(API_MOVIES)
                 .then().body(not(containsString(movieTitle)));
     }
 
@@ -92,42 +99,58 @@ public class MovieIntegrationTest {
         String movieTitle = "12 gniewnych ludzi";
         String msg = prepareMovieDto(movieTitle,  "test", false);
         Response response =
-            given().header("Authorization", "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTQ5MzI5NDg0OH0.JRwfFvqiiYEvbxrtUwoPmqOKY963HL-sDWrowStOBqgC9DQJN1F1eTj-Lk9rlUANQIQNUCx5OMnQjMpxoXyhfQ")
+            given().header("Authorization", SAMPLE_AUTH)
                 .when()
                 .contentType("application/json")
                 .body(msg)
-                .put("/movie");
+                .put(API_MOVIE);
 
         movieTitle = "Jablka Adama";
         msg = prepareMovieDto(movieTitle,  "test", false);
-        response = given().header("Authorization", "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTQ5MzI5NDg0OH0.JRwfFvqiiYEvbxrtUwoPmqOKY963HL-sDWrowStOBqgC9DQJN1F1eTj-Lk9rlUANQIQNUCx5OMnQjMpxoXyhfQ")
+        response = given().header("Authorization", SAMPLE_AUTH)
                 .when()
                 .contentType("application/json")
                 .body(msg)
-                .put("/movie");
+                .put(API_MOVIE);
 
         movieTitle = "Polowanie na czerwony pazdziernik";
         msg = prepareMovieDto(movieTitle,  "test", true);
-        response = given().header("Authorization", "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTQ5MzI5NDg0OH0.JRwfFvqiiYEvbxrtUwoPmqOKY963HL-sDWrowStOBqgC9DQJN1F1eTj-Lk9rlUANQIQNUCx5OMnQjMpxoXyhfQ")
+        response = given().header("Authorization", SAMPLE_AUTH)
                 .when()
                 .contentType("application/json")
                 .body(msg)
-                .put("/movie");
+                .put(API_MOVIE);
 
 
-        given().header("Authorization", "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTQ5MzI5NDg0OH0.JRwfFvqiiYEvbxrtUwoPmqOKY963HL-sDWrowStOBqgC9DQJN1F1eTj-Lk9rlUANQIQNUCx5OMnQjMpxoXyhfQ")
+        given().header("Authorization", SAMPLE_AUTH)
                 .when()
-                .get("/movies/unwatched").
+                .get(API_MOVIES_UNWATCHED).
                 then().body("list.size()", greaterThanOrEqualTo(2));
 
-        given().header("Authorization", "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTQ5MzI5NDg0OH0.JRwfFvqiiYEvbxrtUwoPmqOKY963HL-sDWrowStOBqgC9DQJN1F1eTj-Lk9rlUANQIQNUCx5OMnQjMpxoXyhfQ")
+        given().header("Authorization", SAMPLE_AUTH)
                 .when()
-                .get("/movies/watched").
+                .get(API_MOVIES_WATCHED).
                 then().body("list.size()", greaterThanOrEqualTo(1));
 
 
 
     }
+
+    @Test
+    public void cannotFetchMoviesWithoutAuthentication() {
+        //  given().
+        String title = "movie123";
+        String msg = prepareMovieDto(title, "desc", true);
+
+        given().when()
+                .contentType("application/json")
+                .body(msg)
+                .when()
+                .put(API_MOVIE)
+                .then()
+                .statusCode(403);
+    }
+
 
     private String prepareMovieDto(String title, String description, boolean watched){
         MovieDto movie = MovieDto.builder().title(title).description(description).watched(watched).build();

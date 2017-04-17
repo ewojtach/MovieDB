@@ -25,6 +25,11 @@ import static org.hamcrest.Matchers.*;
 @ActiveProfiles("test")
 public class UserIntegrationTest {
 
+    public static final String API_USER = "/api/user";
+    public static final String API_USERS = "/api/users";
+
+    public static final String SAMPLE_AUTH = "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTQ5MzI5NDg0OH0.JRwfFvqiiYEvbxrtUwoPmqOKY963HL-sDWrowStOBqgC9DQJN1F1eTj-Lk9rlUANQIQNUCx5OMnQjMpxoXyhfQ";
+
     @Value("${local.server.port}")   private int port;
 
     @Before
@@ -41,18 +46,18 @@ public class UserIntegrationTest {
                     .contentType("application/json")
                     .body(msg)
                     .when()
-                    .put("/user")
+                    .put(API_USER)
                     .then()
                     .statusCode(HttpStatus.SC_CREATED);
 
-            given().header("Authorization", "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTQ5MzI5NDg0OH0.JRwfFvqiiYEvbxrtUwoPmqOKY963HL-sDWrowStOBqgC9DQJN1F1eTj-Lk9rlUANQIQNUCx5OMnQjMpxoXyhfQ")
+            given().header("Authorization", SAMPLE_AUTH)
                     .when()
-                    .get("/users").
+                    .get(API_USERS).
                     then().body(containsString(userName));
 
-            given().header("Authorization", "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTQ5MzI5NDg0OH0.JRwfFvqiiYEvbxrtUwoPmqOKY963HL-sDWrowStOBqgC9DQJN1F1eTj-Lk9rlUANQIQNUCx5OMnQjMpxoXyhfQ")
+            given().header("Authorization", SAMPLE_AUTH)
                     .when()
-                    .get("/users").
+                    .get(API_USERS).
                     then().
                     statusCode(HttpStatus.SC_OK).
                     contentType(ContentType.JSON).
@@ -66,21 +71,21 @@ public class UserIntegrationTest {
             given().contentType("application/json")
                     .body(msg)
                     .when()
-                    .put("/user")
+                    .put(API_USER)
                     .then()
                     .statusCode(HttpStatus.SC_CREATED);
-            given().header("Authorization", "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTQ5MzI5NDg0OH0.JRwfFvqiiYEvbxrtUwoPmqOKY963HL-sDWrowStOBqgC9DQJN1F1eTj-Lk9rlUANQIQNUCx5OMnQjMpxoXyhfQ")
+            given().header("Authorization", SAMPLE_AUTH)
                     .when()
-                    .get("/users").
+                    .get(API_USERS).
                     then().body(containsString(userName));
 
-            given().header("Authorization", "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTQ5MzI5NDg0OH0.JRwfFvqiiYEvbxrtUwoPmqOKY963HL-sDWrowStOBqgC9DQJN1F1eTj-Lk9rlUANQIQNUCx5OMnQjMpxoXyhfQ")
+            given().header("Authorization", SAMPLE_AUTH)
                     .when()
-                    .delete("/user/"+userName)
+                    .delete(API_USER+"/"+userName)
                     .then().statusCode(HttpStatus.SC_OK);
-            given().header("Authorization", "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTQ5MzI5NDg0OH0.JRwfFvqiiYEvbxrtUwoPmqOKY963HL-sDWrowStOBqgC9DQJN1F1eTj-Lk9rlUANQIQNUCx5OMnQjMpxoXyhfQ")
+            given().header("Authorization", SAMPLE_AUTH)
                     .when()
-                    .get("users")
+                    .get(API_USERS)
                     .then().body(not(containsString(userName)));
         }
 

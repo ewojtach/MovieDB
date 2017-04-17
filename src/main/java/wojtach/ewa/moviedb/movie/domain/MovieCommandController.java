@@ -15,19 +15,19 @@ import wojtach.ewa.moviedb.user.domain.UserAccountFacade;
 class MovieCommandController {
     private MovieFacade movieFacade;
 
-    @PutMapping("movie")
+    @PutMapping("api/movie")
     @ResponseStatus(code = HttpStatus.CREATED)
     MovieDto addMovie(@RequestBody MovieDto movie){
         return movieFacade.addMovie(movie);
     }
 
-    @PostMapping("movie")
+    @PostMapping("api/movie")
     @ResponseStatus(code = HttpStatus.OK)
     MovieDto updateMovie(@RequestBody MovieDto movie){
         return movieFacade.updateMovie(movie);
     }
 
-    @DeleteMapping("movie/{id}")
+    @DeleteMapping("api/movie/{id}")
     @ResponseStatus(code = HttpStatus.OK)
     void deleteMovie(@PathVariable("id") String id){
         movieFacade.deleteMovie(id);

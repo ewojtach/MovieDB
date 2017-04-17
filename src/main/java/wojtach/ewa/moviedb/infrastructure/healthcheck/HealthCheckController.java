@@ -17,7 +17,7 @@ import java.util.List;
 @AllArgsConstructor
 class HealthCheckController {
 
-    @GetMapping("healthcheck")
+    @GetMapping("api/healthcheck")
     String getUserAccounts(){
         return "OK";
     }

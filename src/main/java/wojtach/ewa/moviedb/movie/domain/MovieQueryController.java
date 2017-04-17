@@ -19,24 +19,24 @@ class MovieQueryController {
 
     private MovieFacade movieFacade;
 
-    @GetMapping("movies")
+    @GetMapping("api/movies")
     List<MovieDto> getAllMovies(){
         return movieFacade.getAllMovies();
     }
 
-    @GetMapping("movies/watched")
+    @GetMapping("api/movies/watched")
     List<MovieDto> getWatchedMovies(){
         return movieFacade.getWatchedMovies();
     }
 
 
-    @GetMapping("movies/unwatched")
+    @GetMapping("api/movies/unwatched")
     List<MovieDto> getUnwatchedMovies(){
         return movieFacade.getUnwatchedMovies();
     }
 
 
-    @GetMapping("movie/{title}")
+    @GetMapping("api/movie/{title}")
     MovieDto getMovieByTitle(@PathVariable String title){
         return movieFacade.getMovieByTitle(title);
     }
