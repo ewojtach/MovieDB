@@ -18,7 +18,7 @@ import java.util.Collections;
 /**
  * Created by ewa on 16.04.2017.
  */
-public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
+class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 
 
     public JWTLoginFilter(String url, AuthenticationManager authManager) {

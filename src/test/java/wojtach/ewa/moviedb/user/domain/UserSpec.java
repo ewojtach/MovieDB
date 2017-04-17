@@ -48,7 +48,7 @@ public class UserSpec {
     }
 
     @Test
-    public void shouldAddUser() {
+    public void shouldAddUser() throws UserAlreadyRegisteredException {
         // when: user creates account
 
         UserAccountDto user = facade.createUserAccount(ewa);
@@ -63,7 +63,7 @@ public class UserSpec {
     }
 
     @Test
-    public void shouldNotReturnPassword() {
+    public void shouldNotReturnPassword() throws UserAlreadyRegisteredException {
         // when: user creates account
         UserAccountDto user = facade.createUserAccount(ewa);
 
@@ -77,7 +77,7 @@ public class UserSpec {
     }
 
     @Test (expected=UserAlreadyRegisteredException.class)
-    public void shouldNotAllowToAddTwoUsersWithSameLogin() {
+    public void shouldNotAllowToAddTwoUsersWithSameLogin() throws UserAlreadyRegisteredException {
         // when: user creates account
 
         UserAccountDto user = facade.createUserAccount(ewa);
@@ -90,7 +90,7 @@ public class UserSpec {
     }
 
     @Test
-    public void shouldRemoveUser() {
+    public void shouldRemoveUser() throws UserAlreadyRegisteredException, UserNotFoundException {
         // when: user creates account
         UserAccountDto user = facade.createUserAccount(lukasz);
 
@@ -106,7 +106,7 @@ public class UserSpec {
     }
 
     @Test (expected=UserNotFoundException.class)
-    public void shouldNotAllowToRemoveUnregisteredUser() {
+    public void shouldNotAllowToRemoveUnregisteredUser() throws UserNotFoundException {
         // when: user removes account
 
         facade.removeUserAccount("xxx");

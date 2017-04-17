@@ -21,10 +21,11 @@ public class MovieFacade {
 
 
 
-    public MovieDto addMovie(MovieDto movie){
+    public MovieDto addMovie(MovieDto movie) throws MovieAlreadyExistsException {
 
-        if (movieRepository.findByTitle(movie.getTitle() )!= null) throw new MovieAlreadyExistsException();
-
+        if (movieRepository.findByTitle(movie.getTitle() )!= null)  {
+            throw new MovieAlreadyExistsException();
+        }
         return convertToDto(movieRepository.save(convertToEntity(movie)));
     }
 
@@ -32,11 +33,13 @@ public class MovieFacade {
         return convertToDto(movieRepository.save(convertToEntity(movie)));
     }
 
-    public void deleteMovie(String movieId){
+    public void deleteMovie(String movieId) throws MovieNotFoundException {
 
         Movie movie = movieRepository.findById(UUID.fromString(movieId));
 
-        if (movie == null) throw new MovieNotFoundException();
+        if (movie == null) {
+            throw new MovieNotFoundException();
+        }
 
         movieRepository.delete(movie.getId());
     }

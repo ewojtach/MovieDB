@@ -9,15 +9,13 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
-import static springfox.documentation.builders.PathSelectors.regex;
-
 
 /**
  * Created by ewa on 17.04.2017.
  */
 @Configuration
 @EnableSwagger2
-public class SwaggerConfig {
+class SwaggerConfig {
 
     @Bean
     public Docket productMovieApi() {

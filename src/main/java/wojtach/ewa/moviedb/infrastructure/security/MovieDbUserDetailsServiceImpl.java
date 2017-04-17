@@ -17,7 +17,7 @@ import java.util.List;
  * Created by ewa on 17.04.2017.
  */
 @Service
-public class MovieDbUserDetailsServiceImpl implements UserDetailsService{
+class MovieDbUserDetailsServiceImpl implements UserDetailsService{
 
     @Autowired
     UserAccountFacade userService;

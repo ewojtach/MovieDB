@@ -37,7 +37,7 @@ public class MovieSpec {
     }
 
     @Test
-    public void shouldAddMovie() {
+    public void shouldAddMovie() throws MovieAlreadyExistsException {
         MovieDto movie = facade.addMovie(testMovie);
 
         given(this.movieRepository.findByTitle(testMovie.getTitle()))
@@ -51,7 +51,7 @@ public class MovieSpec {
     }
 
     @Test (expected=MovieAlreadyExistsException.class)
-    public void shouldNotAllowToAddTwoMoviesWithSameTitle() {
+    public void shouldNotAllowToAddTwoMoviesWithSameTitle() throws MovieAlreadyExistsException {
         // when: user adds movie
 
         MovieDto movie = facade.addMovie(testMovie);
@@ -64,7 +64,7 @@ public class MovieSpec {
     }
 
     @Test
-    public void shouldRemoveMovie() {
+    public void shouldRemoveMovie() throws MovieAlreadyExistsException, MovieNotFoundException {
         // when: user adds movie
         MovieDto movie = facade.addMovie(testMovie);
         UUID movieId = UUID.randomUUID();
@@ -78,7 +78,7 @@ public class MovieSpec {
     }
 
     @Test (expected=MovieNotFoundException.class)
-    public void shouldNotAllowToRemoveUnexistingMovie() {
+    public void shouldNotAllowToRemoveUnexistingMovie() throws MovieNotFoundException {
         // when: user removes not existing movie
 
         facade.deleteMovie(UUID.randomUUID().toString());

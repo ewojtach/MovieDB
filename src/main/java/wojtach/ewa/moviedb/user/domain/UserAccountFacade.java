@@ -37,7 +37,7 @@ public class UserAccountFacade {
         this.userAccountRepository = userAccountRepository;
     }
 
-    public UserAccountDto createUserAccount(UserAccountDto user) {
+    public UserAccountDto createUserAccount(UserAccountDto user) throws UserAlreadyRegisteredException {
 
         //check if user with same login does not exist!
         user.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -60,7 +60,7 @@ public class UserAccountFacade {
                 .map(entity -> convertToDto(entity)).collect(Collectors.toList());
     }
 
-    public void removeUserAccount(String userName) {
+    public void removeUserAccount(String userName) throws UserNotFoundException {
 
         UserAccount user = userAccountRepository.findByName(userName);
         if (user == null) throw new UserNotFoundException();

@@ -14,7 +14,7 @@ import java.io.IOException;
 /**
  * Created by ewa on 16.04.2017.
  */
-public class JWTAuthenticationFilter extends GenericFilterBean {
+class JWTAuthenticationFilter extends GenericFilterBean {
 
     @Override
     public void doFilter(ServletRequest request,
