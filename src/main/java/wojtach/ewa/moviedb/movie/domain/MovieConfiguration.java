@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
 @ComponentScan({"wojtach.ewa.moviedb.movie.domain"})
 class MovieConfiguration {
 
-    @Bean(name="movieFacade")
+    @Bean
     public MovieFacade movieFacade() {
         return new MovieFacade();
     }

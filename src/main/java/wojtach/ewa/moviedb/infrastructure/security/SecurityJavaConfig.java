@@ -28,7 +28,8 @@ class SecurityJavaConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable().authorizeRequests()
+        http.csrf().disable()
+                .authorizeRequests()
                 .antMatchers("/").permitAll()
                 .antMatchers("/api/movie").authenticated()
                 .antMatchers("/api/movies").authenticated()
@@ -36,7 +37,6 @@ class SecurityJavaConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.PUT, "/api/user").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/healthcheck").permitAll()
                 .antMatchers(HttpMethod.GET, "/v2/api-docs").permitAll()
-                .antMatchers(HttpMethod.GET,"/").permitAll()
                 .anyRequest().permitAll()
                 .and()
                 // We filter the api/login requests
@@ -55,6 +55,7 @@ class SecurityJavaConfig extends WebSecurityConfigurerAdapter {
                 .password("password")
                 .roles("ADMIN");
 
-        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
+        auth.userDetailsService(userDetailsService)
+                .passwordEncoder(passwordEncoder);
     }
 }

@@ -33,19 +33,18 @@ public class MovieSpec {
         given(this.movieRepository.save(any(Movie.class)))
                 .willReturn(testMovieValue);
 
-
     }
 
     @Test
     public void shouldAddMovie() throws MovieAlreadyExistsException {
-        MovieDto movie = facade.addMovie(testMovie);
+        facade.addMovie(testMovie);
 
         given(this.movieRepository.findByTitle(testMovie.getTitle()))
                 .willReturn(Movie.builder().id(UUID.randomUUID())
                         .title(testMovie.getTitle()).description("opis").build());
 
 
-        //then: system has this user
+        //then: system has this movie
         assertNotNull(facade.getMovieByTitle(testMovie.getTitle()));
 
     }
@@ -54,11 +53,10 @@ public class MovieSpec {
     public void shouldNotAllowToAddTwoMoviesWithSameTitle() throws MovieAlreadyExistsException {
         // when: user adds movie
 
-        MovieDto movie = facade.addMovie(testMovie);
+        facade.addMovie(testMovie);
 
         given(this.movieRepository.findByTitle(testMovie.getTitle()))
                 .willReturn(Movie.builder().id(UUID.randomUUID()).title(testMovie.getTitle()).description("opis").build());
-
 
         MovieDto sameMovie = facade.addMovie(testMovie);
     }
@@ -72,7 +70,7 @@ public class MovieSpec {
         given(this.movieRepository.findById(movieId))
                 .willReturn(Movie.builder().id(movieId).title(testMovie.getTitle()).description("opis").build());
 
-        // when: user removes account
+        // when: user removes movie
         facade.deleteMovie(movieId.toString());
 
     }
@@ -85,11 +83,19 @@ public class MovieSpec {
     }
 
     private MovieDto createMovieDto(String title, String description, boolean watched) {
-        return MovieDto.builder().title(title).description(description).watched(watched).build();
+        return MovieDto.builder()
+                .title(title)
+                .description(description)
+                .watched(watched)
+                .build();
     }
 
     private Movie createMovieValue(String title, String description, boolean watched) {
-        return Movie.builder().title(title).description(description).watched(watched).build();
+        return Movie.builder()
+                .title(title)
+                .description(description)
+                .watched(watched)
+                .build();
     }
 
 }

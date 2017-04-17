@@ -31,5 +31,5 @@ To obtain login credentials, register user and call login:
    Host: localhost:8080
    Content-Type: application/json
    Cache-Control: no-cache
-   
+
    {"userName": "user","password":"password"}```

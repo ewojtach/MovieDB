@@ -51,7 +51,7 @@ public class UserSpec {
     public void shouldAddUser() throws UserAlreadyRegisteredException {
         // when: user creates account
 
-        UserAccountDto user = facade.createUserAccount(ewa);
+        facade.createUserAccount(ewa);
 
         given(this.userAccountRepository.findByName(ewa.getName()))
                 .willReturn(UserAccount.builder().id(1).name("ewa").password("test").build());
@@ -65,7 +65,8 @@ public class UserSpec {
     @Test
     public void shouldNotReturnPassword() throws UserAlreadyRegisteredException {
         // when: user creates account
-        UserAccountDto user = facade.createUserAccount(ewa);
+
+        facade.createUserAccount(ewa);
 
         given(this.userAccountRepository.findByName(ewa.getName()))
                 .willReturn(UserAccount.builder().id(1).name("ewa").password("test").build());
@@ -80,7 +81,7 @@ public class UserSpec {
     public void shouldNotAllowToAddTwoUsersWithSameLogin() throws UserAlreadyRegisteredException {
         // when: user creates account
 
-        UserAccountDto user = facade.createUserAccount(ewa);
+        facade.createUserAccount(ewa);
 
         given(this.userAccountRepository.findByName(ewa.getName()))
                 .willReturn(UserAccount.builder().id(1).name("ewa").password("test").build());
@@ -92,7 +93,7 @@ public class UserSpec {
     @Test
     public void shouldRemoveUser() throws UserAlreadyRegisteredException, UserNotFoundException {
         // when: user creates account
-        UserAccountDto user = facade.createUserAccount(lukasz);
+        facade.createUserAccount(lukasz);
 
         given(this.userAccountRepository.findByName(lukasz.getName()))
                 .willReturn(UserAccount.builder().id(1).name("lukasz").password("test").build());
@@ -108,16 +109,22 @@ public class UserSpec {
     @Test (expected=UserNotFoundException.class)
     public void shouldNotAllowToRemoveUnregisteredUser() throws UserNotFoundException {
         // when: user removes account
-
         facade.removeUserAccount("xxx");
     }
 
     private UserAccountDto createUserAccountDto(String name, String password) {
-        return UserAccountDto.builder().name(name).password(password).build();
+        return UserAccountDto.builder()
+                .name(name)
+                .password(password)
+                .build();
     }
 
     private UserAccount createUserAccount(String name, String password) {
-        return UserAccount.builder().name(name).password(password).id(1).build();
+        return UserAccount.builder()
+                .name(name)
+                .password(password)
+                .id(1)
+                .build();
     }
 
 }

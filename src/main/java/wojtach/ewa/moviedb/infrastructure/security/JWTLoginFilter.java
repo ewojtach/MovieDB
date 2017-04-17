@@ -21,7 +21,7 @@ import java.util.Collections;
 class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 
 
-    public JWTLoginFilter(String url, AuthenticationManager authManager) {
+    public JWTLoginFilter(final String url, final AuthenticationManager authManager) {
         super(new AntPathRequestMatcher(url));
         setAuthenticationManager(authManager);
     }

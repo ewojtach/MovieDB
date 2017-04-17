@@ -30,7 +30,8 @@ public class UserIntegrationTest {
 
     public static final String SAMPLE_AUTH = "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTQ5MzI5NDg0OH0.JRwfFvqiiYEvbxrtUwoPmqOKY963HL-sDWrowStOBqgC9DQJN1F1eTj-Lk9rlUANQIQNUCx5OMnQjMpxoXyhfQ";
 
-    @Value("${local.server.port}")   private int port;
+    @Value("${local.server.port}")
+    private int port;
 
     @Before
     public void setUp() {

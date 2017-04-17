@@ -12,6 +12,7 @@ import wojtach.ewa.moviedb.user.domain.UserAccountFacade;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by ewa on 17.04.2017.
@@ -23,13 +24,10 @@ class MovieDbUserDetailsServiceImpl implements UserDetailsService{
     UserAccountFacade userService;
 
     @Override
-    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(final String s) throws UsernameNotFoundException {
 
-        // System.out.println("user by name: "+s);
-
-        UserAccountDto user = userService.getUserAccountByNameWithPassword(s);
-
-        if (user == null) throw new UsernameNotFoundException(s);
+        final UserAccountDto user = Optional.ofNullable(userService.getUserAccountByNameWithPassword(s))
+                .orElseThrow(()->new UsernameNotFoundException(s));
 
         return new UserDetails() {
 

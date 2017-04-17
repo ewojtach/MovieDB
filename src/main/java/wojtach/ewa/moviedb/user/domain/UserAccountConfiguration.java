@@ -15,7 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 class UserAccountConfiguration {
 
 
-    @Bean(name="userAccountFacade")
+    @Bean
     public UserAccountFacade userAccountFacade() {
         return new UserAccountFacade();
     }
