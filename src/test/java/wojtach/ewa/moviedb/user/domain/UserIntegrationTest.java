@@ -8,6 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import static io.restassured.RestAssured.*;
@@ -20,6 +21,7 @@ import static org.hamcrest.Matchers.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
+@ActiveProfiles("test")
 public class UserIntegrationTest {
 
         @Before
@@ -39,11 +41,15 @@ public class UserIntegrationTest {
                     .put("/user")
                     .then()
                     .statusCode(HttpStatus.SC_CREATED);
-            when().
-                    get("/users").
+
+            given().header("Authorization", "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTQ5MzI5NDg0OH0.JRwfFvqiiYEvbxrtUwoPmqOKY963HL-sDWrowStOBqgC9DQJN1F1eTj-Lk9rlUANQIQNUCx5OMnQjMpxoXyhfQ")
+                    .when()
+                    .get("/users").
                     then().body(containsString(userName));
-            when().
-                    get("/users").
+
+            given().header("Authorization", "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTQ5MzI5NDg0OH0.JRwfFvqiiYEvbxrtUwoPmqOKY963HL-sDWrowStOBqgC9DQJN1F1eTj-Lk9rlUANQIQNUCx5OMnQjMpxoXyhfQ")
+                    .when()
+                    .get("/users").
                     then().
                     statusCode(HttpStatus.SC_OK).
                     contentType(ContentType.JSON).
@@ -54,20 +60,23 @@ public class UserIntegrationTest {
         public void canRemoveUserAccount() {
             String userName = "lukasz";
             String msg = prepareUserDto(userName,  "test");
-            given()
-                    .contentType("application/json")
+            given().contentType("application/json")
                     .body(msg)
                     .when()
                     .put("/user")
                     .then()
                     .statusCode(HttpStatus.SC_CREATED);
-            when().
-                    get("/users").
+            given().header("Authorization", "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTQ5MzI5NDg0OH0.JRwfFvqiiYEvbxrtUwoPmqOKY963HL-sDWrowStOBqgC9DQJN1F1eTj-Lk9rlUANQIQNUCx5OMnQjMpxoXyhfQ")
+                    .when()
+                    .get("/users").
                     then().body(containsString(userName));
-            when().
-                    delete("/user/"+userName)
+
+            given().header("Authorization", "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTQ5MzI5NDg0OH0.JRwfFvqiiYEvbxrtUwoPmqOKY963HL-sDWrowStOBqgC9DQJN1F1eTj-Lk9rlUANQIQNUCx5OMnQjMpxoXyhfQ")
+                    .when()
+                    .delete("/user/"+userName)
                     .then().statusCode(HttpStatus.SC_OK);
-            when()
+            given().header("Authorization", "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTQ5MzI5NDg0OH0.JRwfFvqiiYEvbxrtUwoPmqOKY963HL-sDWrowStOBqgC9DQJN1F1eTj-Lk9rlUANQIQNUCx5OMnQjMpxoXyhfQ")
+                    .when()
                     .get("users")
                     .then().body(not(containsString(userName)));
         }

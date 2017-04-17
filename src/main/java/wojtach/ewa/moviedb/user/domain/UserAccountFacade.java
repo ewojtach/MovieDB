@@ -50,6 +50,10 @@ public class UserAccountFacade {
         return convertToDto(userAccountRepository.findByName(name));
     }
 
+    public UserAccountDto getUserAccountByNameWithPassword(String name) {
+        return convertToDtoWithPassword(userAccountRepository.findByName(name));
+    }
+
     public List<UserAccountDto> getAllUserAccounts() {
 
         return StreamSupport.stream(userAccountRepository.findAll().spliterator(), false)
@@ -67,6 +71,10 @@ public class UserAccountFacade {
 
     private UserAccountDto convertToDto(UserAccount userAccount){
         return UserAccountDto.builder().name(userAccount.getName()).password(null).id(userAccount.getId()).build();
+    }
+
+    private UserAccountDto convertToDtoWithPassword(UserAccount userAccount){
+        return UserAccountDto.builder().name(userAccount.getName()).password(userAccount.getPassword()).id(userAccount.getId()).build();
     }
 
     private UserAccount convertToEntity(UserAccountDto userAccountDto){

@@ -32,18 +32,22 @@ public class MovieIntegrationTest {
         //  given().
         String title = "movie123";
         String msg = prepareMovieDto(title, "desc", true);
-        given()
+
+        given().header("Authorization", "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTQ5MzI5NDg0OH0.JRwfFvqiiYEvbxrtUwoPmqOKY963HL-sDWrowStOBqgC9DQJN1F1eTj-Lk9rlUANQIQNUCx5OMnQjMpxoXyhfQ")
+                .when()
                 .contentType("application/json")
                 .body(msg)
                 .when()
                 .put("/movie")
                 .then()
                 .statusCode(HttpStatus.SC_CREATED);
-        when().
-                get("/movies").
+        given().header("Authorization", "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTQ5MzI5NDg0OH0.JRwfFvqiiYEvbxrtUwoPmqOKY963HL-sDWrowStOBqgC9DQJN1F1eTj-Lk9rlUANQIQNUCx5OMnQjMpxoXyhfQ")
+                .when()
+                .get("/movies").
                 then().body(containsString(title));
-        when().
-                get("/movies").
+        given().header("Authorization", "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTQ5MzI5NDg0OH0.JRwfFvqiiYEvbxrtUwoPmqOKY963HL-sDWrowStOBqgC9DQJN1F1eTj-Lk9rlUANQIQNUCx5OMnQjMpxoXyhfQ")
+                .when()
+                .get("/movies").
                 then().
                 statusCode(HttpStatus.SC_OK).
                 contentType(ContentType.JSON).
@@ -54,24 +58,28 @@ public class MovieIntegrationTest {
     public void canDeleteMovie() {
         String movieTitle = "12 gniewnych ludzi";
         String msg = prepareMovieDto(movieTitle,  "test", false);
-        Response response = given()
+        Response response =
+                given().header("Authorization", "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTQ5MzI5NDg0OH0.JRwfFvqiiYEvbxrtUwoPmqOKY963HL-sDWrowStOBqgC9DQJN1F1eTj-Lk9rlUANQIQNUCx5OMnQjMpxoXyhfQ")
+                .when()
                 .contentType("application/json")
                 .body(msg)
                 .put("/movie");
 
         String id = response.body().jsonPath().getString("id");
 
-        when().
-                get("/movies").
+        given().header("Authorization", "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTQ5MzI5NDg0OH0.JRwfFvqiiYEvbxrtUwoPmqOKY963HL-sDWrowStOBqgC9DQJN1F1eTj-Lk9rlUANQIQNUCx5OMnQjMpxoXyhfQ")
+                .when()
+                .get("/movies").
                 then().body(containsString(movieTitle));
 
 
-        System.out.println("id to delete: "+id);
 
-        when().
-                delete("/movie/"+id)
+        given().header("Authorization", "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTQ5MzI5NDg0OH0.JRwfFvqiiYEvbxrtUwoPmqOKY963HL-sDWrowStOBqgC9DQJN1F1eTj-Lk9rlUANQIQNUCx5OMnQjMpxoXyhfQ")
+                .when()
+                .delete("/movie/"+id)
                 .then().statusCode(HttpStatus.SC_OK);
-        when()
+        given().header("Authorization", "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTQ5MzI5NDg0OH0.JRwfFvqiiYEvbxrtUwoPmqOKY963HL-sDWrowStOBqgC9DQJN1F1eTj-Lk9rlUANQIQNUCx5OMnQjMpxoXyhfQ")
+                .when()
                 .get("movies")
                 .then().body(not(containsString(movieTitle)));
     }
@@ -80,32 +88,38 @@ public class MovieIntegrationTest {
     public void canListUnwatchedMovies() {
         String movieTitle = "12 gniewnych ludzi";
         String msg = prepareMovieDto(movieTitle,  "test", false);
-        Response response = given()
+        Response response =
+            given().header("Authorization", "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTQ5MzI5NDg0OH0.JRwfFvqiiYEvbxrtUwoPmqOKY963HL-sDWrowStOBqgC9DQJN1F1eTj-Lk9rlUANQIQNUCx5OMnQjMpxoXyhfQ")
+                .when()
                 .contentType("application/json")
                 .body(msg)
                 .put("/movie");
 
         movieTitle = "Jablka Adama";
         msg = prepareMovieDto(movieTitle,  "test", false);
-        response = given()
+        response = given().header("Authorization", "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTQ5MzI5NDg0OH0.JRwfFvqiiYEvbxrtUwoPmqOKY963HL-sDWrowStOBqgC9DQJN1F1eTj-Lk9rlUANQIQNUCx5OMnQjMpxoXyhfQ")
+                .when()
                 .contentType("application/json")
                 .body(msg)
                 .put("/movie");
 
         movieTitle = "Polowanie na czerwony pazdziernik";
         msg = prepareMovieDto(movieTitle,  "test", true);
-        response = given()
+        response = given().header("Authorization", "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTQ5MzI5NDg0OH0.JRwfFvqiiYEvbxrtUwoPmqOKY963HL-sDWrowStOBqgC9DQJN1F1eTj-Lk9rlUANQIQNUCx5OMnQjMpxoXyhfQ")
+                .when()
                 .contentType("application/json")
                 .body(msg)
                 .put("/movie");
 
 
-        when().
-                get("/movies/unwatched").
+        given().header("Authorization", "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTQ5MzI5NDg0OH0.JRwfFvqiiYEvbxrtUwoPmqOKY963HL-sDWrowStOBqgC9DQJN1F1eTj-Lk9rlUANQIQNUCx5OMnQjMpxoXyhfQ")
+                .when()
+                .get("/movies/unwatched").
                 then().body("list.size()", greaterThanOrEqualTo(2));
 
-        when().
-                get("/movies/watched").
+        given().header("Authorization", "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTQ5MzI5NDg0OH0.JRwfFvqiiYEvbxrtUwoPmqOKY963HL-sDWrowStOBqgC9DQJN1F1eTj-Lk9rlUANQIQNUCx5OMnQjMpxoXyhfQ")
+                .when()
+                .get("/movies/watched").
                 then().body("list.size()", greaterThanOrEqualTo(1));
 
 
